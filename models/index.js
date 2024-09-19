@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Locations = require("./locations.js");
 const { DATABASE_URL } = process.env
 
 async function connectToMongo() {
@@ -14,5 +15,6 @@ connectToMongo();
 
 module.exports = {
     users: require('./users.js'),
-    cookieBlacklist: require('./cookieBlacklist.js')
+    cookieBlacklist: require('./cookieBlacklist.js'),
+    locations: require('./locations.js')
 }
