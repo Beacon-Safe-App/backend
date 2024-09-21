@@ -60,7 +60,8 @@ const updateUser = async (req, res) => {
 }
 
 const loginUser = async (req, res) => {
-    const { email, password } = req.body;
+    const { email } = req.body;
+    console.log(req.body)
     try {
         const user = await db.users.findOne({email}).select("+password")
         if (!user) {
@@ -70,7 +71,7 @@ const loginUser = async (req, res) => {
                 message: "Wrong email or password."
             })
         }
-        const isPasswordValid = bcrypt.compare(`${req.body.password}`, user.password)
+        const isPasswordValid = await bcrypt.compare(`${req.body.password}`, user.password)
         if (!isPasswordValid) {
             return res.status(401).json({
                 status: "failed",
