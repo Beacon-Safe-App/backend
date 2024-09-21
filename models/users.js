@@ -5,8 +5,7 @@ const accessToken = process.env.SECRET_ACCESS_TOKEN
 
 const UsersSchema = new mongoose.Schema(
     {
-        first_name: String,
-        last_name: String,
+        name: String,
         email: {
             type: String,
             unique: true,
@@ -14,6 +13,10 @@ const UsersSchema = new mongoose.Schema(
             trim: true,
         },
         password: {
+            type: String,
+            select: false
+        },
+        phoneNumber: {
             type: String,
             select: false
         },

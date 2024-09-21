@@ -4,38 +4,39 @@ const jwt = require('jsonwebtoken')
 const accessToken = process.env.SECRET_ACCESS_TOKEN
 
 const registerUser = async (req, res) => {
-    const {first_name, last_name, email, password, preferences} = req.body
+    const { name, email, password, phoneNumber, preferences} = req.body;
     try {
         newUser = new db.users({
-            first_name,
-            last_name, 
+            name, 
             email,
             password,
+            phoneNumber,
             preferences
-        })
-        const existingUser = await db.users.findOne({email})
+        });
+
+        const existingUser = await db.users.findOne({ email })
         if (existingUser) {
             return res.status(400).json({
                 status: "failed",
                 data: [],
                 message: "You already have an account!"
-            })
+            });
         }
-        const savedUser = await newUser.save()
+
+        const savedUser = await newUser.save();
         const userData = savedUser._doc
         res.status(200).json({
             status: "success",
             data: [userData],
             message: "Registration successful."
-            }
-        )
+        });
     } catch (err) {
         res.status(500).json({
             status: "error",
             code: 500,
             data: [err],
             message: "Internal Server Error"
-        })
+        });
     }
     res.end()
 }
