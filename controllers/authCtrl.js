@@ -60,7 +60,7 @@ const updateUser = async (req, res) => {
 }
 
 const loginUser = async (req, res) => {
-    const { email } = req.body
+    const { email, password } = req.body;
     try {
         const user = await db.users.findOne({email}).select("+password")
         if (!user) {
