@@ -27,35 +27,27 @@ const UsersSchema = new mongoose.Schema(
             }],
             auin_police: {
                 type: Boolean,
-                required: true,
             },
             auin_security: {
                 type: Boolean,
-                required: true,
             },
             auin_contacts: {
                 type: Boolean,
-                required: true,
             },
             auin_community: {
                 type: Boolean,
-                required: true,
             },
             auin_government: {
                 type: Boolean,
-                required: true,
             },
             auin_civil: {
                 type: Boolean,
-                required: true,
             },
             perin_community: {
                 type: Boolean,
-                required: true,
             }, 
             pin: {
                 type: String,
-                required: true,
                 max: 4,
                 min: 4
             },
