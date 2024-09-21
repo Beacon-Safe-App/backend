@@ -4,13 +4,14 @@ const jwt = require('jsonwebtoken')
 const accessToken = process.env.SECRET_ACCESS_TOKEN
 
 const registerUser = async (req, res) => {
-    const {first_name, last_name, email, password} = req.body
+    const {first_name, last_name, email, password, preferences} = req.body
     try {
         newUser = new db.users({
             first_name,
             last_name, 
             email,
-            password
+            password,
+            preferences
         })
         const existingUser = await db.users.findOne({email})
         if (existingUser) {

@@ -17,7 +17,49 @@ const UsersSchema = new mongoose.Schema(
             type: String,
             select: false
         },
-        location_preference: String
+        preferences: {
+            contacts: [{
+                name: String, 
+                phone_number: String
+            }],
+            auin_police: {
+                type: Boolean,
+                required: true,
+            },
+            auin_security: {
+                type: Boolean,
+                required: true,
+            },
+            auin_contacts: {
+                type: Boolean,
+                required: true,
+            },
+            auin_community: {
+                type: Boolean,
+                required: true,
+            },
+            auin_government: {
+                type: Boolean,
+                required: true,
+            },
+            auin_civil: {
+                type: Boolean,
+                required: true,
+            },
+            perin_community: {
+                type: Boolean,
+                required: true,
+            }, 
+            pin: {
+                type: String,
+                required: true,
+                max: 4,
+                min: 4
+            },
+            accessibility: String,
+            pronouns: String,
+            addtlreq: String
+        }
     },
     {timestamps: true}
 )
