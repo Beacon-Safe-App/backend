@@ -42,22 +42,36 @@ const registerUser = async (req, res) => {
 }
 
 const updateUser = async (req, res) => {
-    db.users.findByIdAndUpdate(req.params.id, req.body, {new: true})
-        .then((updatedUser) => {
-            if (!updatedUser) {
-                res.status(400).json({message: 'Could not update user'})
-            }
-            else if (!req.userData.id) {
-                res.status(401).json({message: 'User unauthenticated'})
-            }
-            else if (req.userData.id != req.params.id) {
-                res.status(403).json({message: 'Action unauthorized, only user can update their own properties'})
-            }
-            else {
-                res.status(200).json({ Data: updatedUser, Message: "User updated" })
-            }
-        })
-}
+    const userId = req.params.id;
+    const updates = req.body;
+  
+    try {
+      const user = await db.users.findById(userId);
+  
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      if (req.userData.id !== userId) {
+        return res.status(403).json({ message: 'Unauthorized' });
+      }
+  
+      const updatedUser = await db.users.findByIdAndUpdate(userId, updates, { new: true });
+  
+      res.status(200).json({
+        status: 'success',
+        data: updatedUser,
+        message: 'User updated successfully',
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        status: 'error',
+        message: 'Internal server error',
+      });
+    }
+  };
+  
 
 const loginUser = async (req, res) => {
     const { email } = req.body;

@@ -1,6 +1,7 @@
 require("dotenv").config();
-const { PORT } = process.env;
+const { PORT, ACCESS_TOKEN_SECRET } = process.env;
 const express = require("express");
+const jwt = require('jsonwebtoken');
 const app = express();
 const routes = require('./routes/index.js');
 const cookieParser = require("cookie-parser");
@@ -27,9 +28,21 @@ const corsOptionsDelegate = (req, callback) => {
     callback(null, corsOptions)
 }
 
-app.use(cors(corsOptionsDelegate))
+app.use(cors(corsOptionsDelegate));
 
-app.use('/', routes)
-app.use((req, res) => {res.status(404).json({message: "NOT A PROPER ROUTE", data: [JSON.stringify(req.path)]})})
+const authenticateUser = (req, res, next) => {
+  const token = req.cookies.SessionID;
+  if (!token) return res.status(401).json({ message: "Unauthorized" });
+
+  jwt.verify(token, ACCESS_TOKEN_SECRET, (err, user) => {
+      if (err) return res.status(403).json({ message: "Forbidden" });
+      req.userData = user;
+      next();
+  });
+};
+
+app.use((req, res) => {
+  res.status(404).json({message: "NOT A PROPER ROUTE", data: [JSON.stringify(req.path)] });
+});
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
