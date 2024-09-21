@@ -111,8 +111,43 @@ const logoutUser = async (req, res) => {
     }
 }
 
+const getCurrentUserInfo = async function (req, res, next) {
+    const header = req.headers["cookie"]
+    if (header) {
+        const cookie = header.split('=')[1]
+        const cookieAccessToken = cookie.split(";")[0] 
+        const checkIfBlacklisted = await db.cookieBlacklist.findOne({ token: cookieAccessToken })
+        if (checkIfBlacklisted) {
+            req.userData = false
+            next()
+            return
+        }
+        jwt.verify(cookie, accessToken, async(err, decoded) => {
+            if (err) {
+                req.userData = false
+                next()
+                return
+            }
+            const {id} = decoded
+            const user = await db.users.findById(id).then(res =>{return res})
+            const userData = {
+                id: user.id,
+                firstName: user.first_name,
+                lastName: user.last_name,
+                email: user.email
+            }
+            req.userData = userData
+            next()
+        })
+    } else {
+        req.userData = false
+        next()
+    }
+}
+
 module.exports = {
     registerUser,
     loginUser,
-    logoutUser
+    logoutUser, 
+    getCurrentUserInfo
 }

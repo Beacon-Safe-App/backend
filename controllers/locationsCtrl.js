@@ -6,9 +6,9 @@ const createLocation = (req, res) => {
             if (!createdLocation) {
                 res.status(400).json({ message: 'Cannot create location' })
             } 
-            // else if (!req.userData.id) {
-            //     res.status(401).json({ message: 'User unauthenticated' })
-            // }
+            else if (!req.userData.id) {
+                res.status(401).json({ message: 'User unauthenticated' })
+            }
              else {
                 res.status(201).json({ data: createdLocation, message: 'location created' })
             }
@@ -21,9 +21,9 @@ const getLocations = (req, res) => {
         if (!foundLocations) {
             res.status(404).json({ message: 'Cannot find locations' })
         } 
-        // else if (!req.userData.id) {
-        //     res.status(401).json({ message: 'User unauthenticated' })
-        // } 
+        else if (!req.userData.id) {
+            res.status(401).json({ message: 'User unauthenticated' })
+        } 
         else {
             res.status(200).json({ data: foundLocations })
         }
@@ -36,9 +36,9 @@ const updateLocation = (req, res) => {
             if (!updatedLocation) {
                 res.status(400).json({ Message: 'Could not update location' })
             } 
-            // else if (!req.userData.id) {
-            //     res.status(401).json({ message: 'User unauthenticated' })
-            // }
+            else if (!req.userData.id) {
+                res.status(401).json({ message: 'User unauthenticated' })
+            }
             else {
                 res.status(200).json({ Data: updatedLocation, Message: "location updated" })
             }
@@ -51,9 +51,9 @@ const deleteLocation = (req, res) => {
             if (!deletedLocation) {
                 res.status(400).json({ Message: 'Could not delete location' })
             }   
-            // else if (!req.userData.id) {
-            //     res.status(401).json({ message: 'User unauthenticated' })
-            // } 
+            else if (!req.userData.id) {
+                res.status(401).json({ message: 'User unauthenticated' })
+            } 
             else {
                 res.status(200).json({ Data: deletedLocation, Message: "location deleted" })
             }
