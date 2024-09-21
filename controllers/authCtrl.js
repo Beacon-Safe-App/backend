@@ -41,6 +41,24 @@ const registerUser = async (req, res) => {
     res.end()
 }
 
+const updateUser = async (req, res) => {
+    db.users.findByIdAndUpdate(req.params.id, req.body, {new: true})
+        .then((updatedUser) => {
+            if (!updatedUser) {
+                res.status(400).json({message: 'Could not update user'})
+            }
+            else if (!req.userData.id) {
+                res.status(401).json({message: 'User unauthenticated'})
+            }
+            else if (req.userData.id != req.params.id) {
+                res.status(403).json({message: 'Action unauthorized, only user can update their own properties'})
+            }
+            else {
+                res.status(200).json({ Data: updatedUser, Message: "User updated" })
+            }
+        })
+}
+
 const loginUser = async (req, res) => {
     const { email } = req.body
     try {
@@ -151,5 +169,6 @@ module.exports = {
     registerUser,
     loginUser,
     logoutUser, 
-    getCurrentUserInfo
+    getCurrentUserInfo,
+    updateUser
 }
