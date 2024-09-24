@@ -18,7 +18,8 @@ const UsersSchema = new mongoose.Schema(
         },
         phoneNumber: {
             type: String,
-            select: false
+            select: false,
+            unique: true
         },
         preferences: {
             contacts: [{
@@ -27,24 +28,31 @@ const UsersSchema = new mongoose.Schema(
             }],
             auin_police: {
                 type: Boolean,
+                default: false
             },
             auin_security: {
                 type: Boolean,
+                default: false
             },
             auin_contacts: {
                 type: Boolean,
+                default: false
             },
             auin_community: {
                 type: Boolean,
+                default: false
             },
             auin_government: {
                 type: Boolean,
+                default: false
             },
             auin_civil: {
                 type: Boolean,
+                default: false
             },
             perin_community: {
                 type: Boolean,
+                default: false
             }, 
             pin: {
                 type: String,
