@@ -185,10 +185,73 @@ const getCurrentUserInfo = async function (req, res, next) {
     }
 }
 
+const getUserProfile = async function (req, res) {
+    db.users.findById(req.params.id)
+        .then((user) => {
+            if(!user) {
+                res.status(400).json({Message: 'Could not get user'})
+            }
+            else if (!req.userData.id) {
+                res.status(401).json({Message: 'User unauthenticated'})
+            }
+            else {
+                res.status(200).json({Data: user, Message: "Got user data"})
+            }
+        }
+    )
+}
+
+const returnCurrentUserInfo = async (req, res) => {
+    const header = req.headers["cookie"]
+    if (header) {
+        const cookie = header.split('=')[1]
+        const cookieAccessToken = cookie.split(";")[0] 
+        const checkIfBlacklisted = await db.cookieBlacklist.findOne({ token: cookieAccessToken })
+        
+        if (checkIfBlacklisted) {
+            const userData = null
+            res.status(400).json({
+                status: "failure",
+                code: 400,
+                data: [userData],
+                message: "Attempting to log in with a logged out token, reauthenticate."
+            })
+        }
+        jwt.verify(cookie, accessToken, async(err, decoded) => {
+            if (err) {
+                const userData = null
+                res.status(400).json({
+                    status: "failure",
+                    code: 400,
+                    data: [userData],
+                    message: "Error during getting user data"
+                })
+            }
+            const {id} = decoded
+            const user = await db.users.findById(id).then(res =>{return res})
+            res.status(200).json({
+                status: "success",
+                code: 200,
+                data: [user],
+                message: "Returning user data"
+            })
+        })
+    } else {
+        res.status(400).json({
+            status: "failure",
+            code: 400,
+            data: [],
+            message: "No headers sent, user data cannot be retrieved"
+        })
+    }
+}
+
 module.exports = {
     registerUser,
     loginUser,
     logoutUser, 
     getCurrentUserInfo,
-    updateUser
+    updateUser,
+    getUserProfile,
+    returnCurrentUserInfo
 }
