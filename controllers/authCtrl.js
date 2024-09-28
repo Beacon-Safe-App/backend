@@ -172,8 +172,7 @@ const getCurrentUserInfo = async function (req, res, next) {
             const user = await db.users.findById(id).then(res =>{return res})
             const userData = {
                 id: user.id,
-                firstName: user.first_name,
-                lastName: user.last_name,
+                name: user.name,
                 email: user.email
             }
             req.userData = userData
