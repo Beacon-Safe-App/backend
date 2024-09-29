@@ -26,34 +26,7 @@ const UsersSchema = new mongoose.Schema(
                 name: String, 
                 phone_number: String
             }],
-            auin_police: {
-                type: Boolean,
-                default: false
-            },
-            auin_security: {
-                type: Boolean,
-                default: false
-            },
-            auin_contacts: {
-                type: Boolean,
-                default: false
-            },
-            auin_community: {
-                type: Boolean,
-                default: false
-            },
-            auin_government: {
-                type: Boolean,
-                default: false
-            },
-            auin_civil: {
-                type: Boolean,
-                default: false
-            },
-            perin_community: {
-                type: Boolean,
-                default: false
-            }, 
+            interventionPreferences: [String], 
             pin: {
                 type: String,
                 max: 4,

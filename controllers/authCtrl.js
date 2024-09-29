@@ -45,10 +45,6 @@ const updateUser = async (req, res) => {
     const userId = req.params.id;
     const updates = req.body;
     updates.preferences = updates.preferences.formData
-    updates.preferences.interventionPreferences.forEach(element => {
-        updates.preferences[element] = true  
-    })
-    console.log(updates)
   
     try {
       const user = await db.users.findById(userId);
@@ -80,7 +76,6 @@ const updateUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
     const { email } = req.body;
-    console.log(req.body)
     try {
         const user = await db.users.findOne({email}).select("+password")
         if (!user) {
