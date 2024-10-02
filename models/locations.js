@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const locationsSchema = new Schema({
     name: { type: String, required: true },
-    type: { type: String, enum: ['hospital', 'police', 'safehouse'], required: true },
+    type: { type: String, enum: ['medical', 'police', 'safehouse', 'fire'], required: true },
     address: { type: String, required: true },
     phone_number: { type: String, required: true },
     hours: { type: String, required: true },
