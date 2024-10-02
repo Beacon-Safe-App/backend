@@ -44,8 +44,10 @@ const registerUser = async (req, res) => {
 const updateUser = async (req, res) => {
     const userId = req.params.id;
     const updates = req.body;
-    updates.preferences = updates.preferences.formData
-  
+    if (updates.preferences) {
+        updates.preferences = updates.preferences.formData
+    }
+
     try {
       const user = await db.users.findById(userId);
   

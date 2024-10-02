@@ -18,7 +18,6 @@ const UsersSchema = new mongoose.Schema(
         },
         phoneNumber: {
             type: String,
-            select: false,
             unique: true
         },
         preferences: {
