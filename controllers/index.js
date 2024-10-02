@@ -1,4 +1,4 @@
 module.exports = {
-    authCtrl: require('./authCtrl.js'),
-    locationsCtrl: require('./locationsCtrl.js')
-}
+  authCtrl: require("./authCtrl.js"),
+  locationsCtrl: require("./locationsCtrl.js"),
+};
